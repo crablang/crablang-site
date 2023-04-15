@@ -26,7 +26,16 @@
 	padding: 20px;
 	max-width: 65ch;
 	text-align: left;
-	background-color: var(--base);
+	background:
+	radial-gradient(circle, transparent 20%, var(--base) 20%,
+	  var(--base) 80%, transparent 80%, transparent),
+	radial-gradient(circle, transparent 20%, var(--base) 20%,
+	  var(--base) 80%, transparent 80%, transparent) 50px 50px,
+	linear-gradient(var(--highmed) 8px, transparent 8px) 0 -4px,
+	linear-gradient(90deg, var(--highmed) 8px, transparent 8px) -4px 0;
+  	background-color: var(--base);
+  	background-size: 100px 100px, 100px 100px, 50px 50px, 50px 50px;
+	background-attachment:fixed;
 	word-wrap: break-word;
 	overflow-wrap: break-word;
 	line-height: 1.5;
@@ -114,10 +123,12 @@ aside {
     text-align: center;
 }
 article {
-    background-color: var(--highmed);
+    background-color: #403d5250;
+	backdrop-filter: blur(10px) brightness(105%);
     padding: 1rem;
     margin: 1rem;
     border-radius: 1rem;
+	border: solid var(--gold) 2px;
 }
 ol {
     list-style:lower-greek;
