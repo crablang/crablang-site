@@ -22,12 +22,16 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
         display: grid;
         grid-template-columns: 1fr 1fr;
         border: solid var(--rose) 2px;
-        padding: 0.75rem;
+        padding: 1rem;
         border-radius: 1rem;
+        transition: all .5s ease;
       }
       #intro p {
         display: flex;
         align-items: center;
+      }
+      #intro:hover {
+        box-shadow: 0 0 1rem var(--love), 0 0 1rem var(--love) inset;
       }
     </style>
     <main>
