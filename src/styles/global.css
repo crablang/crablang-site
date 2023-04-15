@@ -20,11 +20,11 @@
 	--highmed: #403d52;
 	--highhigh: #524f67;
 }
+* {
+	box-sizing: border-box;
+}
  body {
 	font-family: Verdana, sans-serif;
-	margin: auto;
-	padding: 20px;
-	max-width: 65ch;
 	text-align: left;
 	background:
 	radial-gradient(circle, transparent 20%, var(--base) 20%,
@@ -40,6 +40,12 @@
 	overflow-wrap: break-word;
 	line-height: 1.5;
 	color: var(--text);
+	overflow-x: hidden;
+}
+main {
+	margin: auto;
+	padding: 20px;
+	max-width: 65ch;
 }
 h1,
 h2,
