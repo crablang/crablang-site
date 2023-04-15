@@ -1,0 +1,95 @@
+<input type="checkbox" name="" id="list" class="syscheck">
+<nav>
+    <label for="list">
+        <div id="nav">
+            <!-- <svg class="nav-svg" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256"><path fill="currentColor" d="M80 64a8 8 0 0 1 8-8h128a8 8 0 0 1 0 16H88a8 8 0 0 1-8-8Zm136 56H88a8 8 0 0 0 0 16h128a8 8 0 0 0 0-16Zm0 64H88a8 8 0 0 0 0 16h128a8 8 0 0 0 0-16ZM44 52a12 12 0 1 0 12 12a12 12 0 0 0-12-12Zm0 64a12 12 0 1 0 12 12a12 12 0 0 0-12-12Zm0 64a12 12 0 1 0 12 12a12 12 0 0 0-12-12Z"/></svg> -->
+            <img src="/crab.svg" alt="">
+        </div>
+    </label>
+    <div id="navlist">
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256"><path fill="currentColor" d="M233.79 132.42L156 93.53V48a28 28 0 0 0-56 0v45.53l-77.79 38.89A4 4 0 0 0 20 136v32a4 4 0 0 0 4.78 3.92l75.22-15v25.46l-14.83 14.79A4 4 0 0 0 84 200v32a4 4 0 0 0 5.49 3.71l38.51-15.4l38.51 15.4a3.87 3.87 0 0 0 1.49.29a3.94 3.94 0 0 0 2.24-.69A4 4 0 0 0 172 232v-32a4 4 0 0 0-1.17-2.83L156 182.34v-25.46l75.22 15A4 4 0 0 0 236 168v-32a4 4 0 0 0-2.21-3.58Zm-5.79 30.7l-75.22-15A4 4 0 0 0 148 152v32a4 4 0 0 0 1.17 2.83L164 201.66v24.43l-34.51-13.8a4 4 0 0 0-3 0L92 226.09v-24.43l14.83-14.83A4 4 0 0 0 108 184v-32a4 4 0 0 0-4.78-3.92L28 163.12v-24.65l77.79-38.89A4 4 0 0 0 108 96V48a20 20 0 0 1 40 0v48a4 4 0 0 0 2.21 3.58L228 138.47Z"/></svg>
+        </div>
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256"><path fill="currentColor" d="M174 156a10 10 0 1 1-10-10a10 10 0 0 1 10 10Zm-82-10a10 10 0 1 0 10 10a10 10 0 0 0-10-10Zm146 22v24a14 14 0 0 1-14 14H32a14 14 0 0 1-14-14v-22.87a111.44 111.44 0 0 1 36.28-82.37L27.76 60.24a6 6 0 1 1 8.48-8.48l27.37 27.36a108.59 108.59 0 0 1 64-21.12h.39a109.17 109.17 0 0 1 64.58 20.93l27.18-27.17a6 6 0 0 1 8.48 8.48l-26.31 26.31c1.26 1.15 2.5 2.32 3.72 3.53A109.29 109.29 0 0 1 238 168Zm-12 0a98 98 0 0 0-98-98h-.35C73.81 70.19 30 114.66 30 169.13V192a2 2 0 0 0 2 2h192a2 2 0 0 0 2-2Z"/></svg>
+        </div>
+    </div>
+
+</nav>
+<style lang="scss">
+    nav {
+        --w: 3.5rem;
+        --count: 2;
+        height: var(--w);
+        width: var(--w);
+        background-color: var(--pine);
+        border-radius: 50%;
+        position: fixed;
+        bottom: var(--w);
+        right: var(--w);
+        display: grid;
+        place-content: center;
+        transition: all 0.5s ease;
+        z-index: 3;
+    }
+    nav svg {
+        color: var(--highlow);
+    }
+    nav:hover {
+        background-color: var(--foam);
+    }
+    nav:hover .nav-svg {
+        color: var(--love);
+    }
+    #navlist {
+        background-color: var(--pine);
+        width: var(--w);
+        height: 0rem;
+        position: fixed;
+        bottom: calc(var(--w) * 2.2);
+        right: var(--w);
+        border-radius: var(--w);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        scale: 0.4;
+        transition: all 0.5s ease;
+    }
+    #navlist:hover {
+        background-color: var(--foam);
+    }
+    #navlist svg {
+        margin: 0.5rem;
+        transition: all .5s ease;
+        border-radius: 50%;
+    }
+    #navlist svg:hover {
+        color: var(--gold);
+    }
+    #list:checked ~ nav #navlist {
+        width: var(--w);
+        height: calc(var(--w) * var(--count));
+        scale: 1;
+        transform: translateY(0);
+    }
+    #list:checked ~ nav {
+        background-color: var(--foam);
+    }
+    #navlist div {
+        background-color: var(--pine);
+        border-radius: 50%;
+        aspect-ratio: 1;
+        display: grid;
+        place-content: center;
+        height: 100% / calc(--count);
+        transition: all .5s ease;
+    }
+    #navlist:hover div {
+        background-color: var(--foam);
+    }
+    #navlist div:hover {
+        background-color: var(--highhigh);
+    }
+</style>

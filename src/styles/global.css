@@ -3,17 +3,34 @@
   https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
   License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
  */
-body {
+:root {
+	--base: #191724;
+	--surface: #1f1d2e;
+	--overlay: #26233a;
+	--muted: #6e6a86;
+	--subtle: #908caa;
+	--text: #e0def4;
+	--love: #eb6f92;
+	--gold: #f6c177;
+	--rose: #ebbcba;
+	--pine: #31748f;
+	--foam: #9ccfd8;
+	--iris: #c4a7e7;
+	--highlow: #21202e;
+	--highmed: #403d52;
+	--highhigh: #524f67;
+}
+ body {
 	font-family: Verdana, sans-serif;
 	margin: auto;
 	padding: 20px;
 	max-width: 65ch;
 	text-align: left;
-	background-color: #fff;
+	background-color: var(--base);
 	word-wrap: break-word;
 	overflow-wrap: break-word;
 	line-height: 1.5;
-	color: #444;
+	color: var(--text);
 }
 h1,
 h2,
@@ -23,10 +40,20 @@ h5,
 h6,
 strong,
 b {
-	color: #222;
+	color: var(--love);
+}
+h1,
+h2,
+h3 {
+	text-align: center;
+	text-decoration: underline;
+}
+::selection {
+	background-color: var(--gold);
+	color: var(--highlow);
 }
 a {
-	color: #3273dc;
+	color: var(--pine);
 }
 nav a {
 	margin-right: 10px;
@@ -50,7 +77,7 @@ img {
 }
 code {
 	padding: 2px 5px;
-	background-color: #f2f2f2;
+	background-color: var(--text);
 }
 pre {
 	padding: 1rem;
@@ -58,10 +85,130 @@ pre {
 pre > code {
 	all: unset;
 }
+hr {
+	color: var(--highhigh);
+}
+address,
 blockquote {
-	border: 1px solid #999;
-	color: #222;
-	padding: 2px 0px 2px 20px;
-	margin: 0px;
-	font-style: italic;
+    font-style: italic;
+    color: var(--subtle);
+}
+blockquote {
+    padding-left: 2.5rem;
+}
+address {
+    text-align: center;
+}
+blockquote cite a,
+blockquote cite,
+address a {
+    color: var(--pine);
+}
+aside {
+    float: right;
+    border: var(--subtle) solid 2px;
+    max-width: 40%;
+    padding: 0.75rem;
+    margin: 0.75rem;
+    border-radius: 1rem;
+    text-align: center;
+}
+article {
+    background-color: var(--highmed);
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: 1rem;
+}
+ol {
+    list-style:lower-greek;
+}
+li::marker {
+    color: var(--pine);
+}
+details {
+    border: var(--subtle) 2px solid;
+    border-radius: 1rem;
+    margin: 0.75rem;
+    padding: 0.75rem;
+}
+summary {
+    color: var(--pine);
+    text-align: center;
+}
+.tooltip {
+	position: relative;
+	display: inline-block;
+}
+  .tooltip .tooltiptext {
+	background-color: var(--card-background);
+	color: var(--gold);
+	position: absolute;
+	visibility: hidden;
+	padding: 0.75rem;
+	border-radius: 0.5rem;
+	left: -50%;
+	text-align: center;
+	bottom: 2em;
+	display: flex;
+	justify-content: center;
+	opacity: 0;
+	transition: all 0.5s ease;
+  }
+  .tooltip .tooltiptext::after {
+	--height: .75em;
+	content: "";
+	background-color: var(--card-background);
+	height: var(--height);
+	width: var(--height);
+	bottom: calc(var(--height) / 2 * -1);
+	position: absolute;
+	rotate: 45deg;
+  }
+  .tooltip:hover .tooltiptext {
+	opacity: 1;
+	visibility: visible;
+  }
+.syscheck {
+	display: none;
+}
+kbd,
+code,
+samp,
+pre {
+    border: var(--p) solid 1px;
+    font-family: monospace;
+    margin: 0.3rem;
+    padding: 0.3rem;
+    background-color: #333;
+    color: #fff;
+}
+figure {
+    text-align: center;
+    padding: 1rem;
+    margin: 1rem;
+}
+img,
+picture {
+    border-radius: 1rem;
+    max-width: 100%;
+}
+figcaption {
+    color: var(--tert);
+    font-style: italic;
+}
+audio,
+video,
+iframe,
+embed,
+object {
+    width: clamp(100px, 80%, 800px);
+    border-radius: 1rem;
+    background-color: var(--tert);
+    border: var(--pp) solid 2px;
+    margin: 1rem;
+}
+form,
+fieldset {
+    border-radius: 1rem;
+    color: var(--pp);
 }

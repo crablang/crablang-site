@@ -2,6 +2,7 @@
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import Nav from "../components/Nav.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 ---
 
@@ -15,12 +16,31 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
   </head>
   <body>
     <Header title={SITE_TITLE} />
+    <Nav/>
+    <style>
+      #intro {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        border: solid var(--rose) 2px;
+        padding: 0.75rem;
+        border-radius: 1rem;
+      }
+      #intro p {
+        display: flex;
+        align-items: center;
+      }
+    </style>
     <main>
       <h1>The Official Home of CrabLang!</h1>
-      <p>
-        A community fork of a language named after a plant fungus. All of the
-        memory-safe features you love, now with 100% less bureaucracy!
-      </p>
+      <section id="intro">
+        <p>
+          A community fork of a language named after a plant fungus. All of the
+          memory-safe features you love, now with 100% less bureaucracy!
+        </p>
+        <figure>
+          <img src="/crab.png" alt="">
+        </figure>
+      </section>
 
       <h2>Why CrabLang?</h2>
       <p>
