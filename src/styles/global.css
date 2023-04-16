@@ -7,6 +7,10 @@ html {
   --headings_quotes: #222;
   --text_color: #444;
   --bg_color: #fff;
+  --code_text: #222;
+}
+code {
+  color: var(--code_text);
 }
 body {
   font-family: Verdana, sans-serif;
@@ -78,5 +82,6 @@ blockquote {
     --headings_quotes: #fff;
     --text_color: #fff;
     --bg_color: #222;
+    --code_text: #444;
   }
 }
