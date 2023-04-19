@@ -18,7 +18,9 @@ The site is currently deployed to [Vercel](https://vercel.com/). Deployments are
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for more information.
+
+Third-party packages and tools may be subject to different licenses.
 
 ## Contributing
 
