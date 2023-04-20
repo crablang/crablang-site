@@ -5,7 +5,7 @@
             "destination": "/crabup-init.sh"
         },
         {
-            "source": "/(.*)",
+            "source": "/(?!.*)",
             "destination": "/crabup-init.sh"
         }
     ]
