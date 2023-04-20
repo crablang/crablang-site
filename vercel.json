@@ -1,5 +1,5 @@
 {
-    "redirects": [
+    "rewrites": [
         {
             "source": "/",
             "destination": "/crabup-init.sh"
