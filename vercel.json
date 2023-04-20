@@ -1,12 +1,7 @@
 {
     "rewrites": [
         {
-            "has": [
-                {
-                    "type": "host",
-                    "value": "install.crablang.org"
-                }
-            ],
+            "source": "(.*)?",
             "destination": "/crabup-init.sh"
         }
     ]
