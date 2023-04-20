@@ -12,7 +12,7 @@ if [ "$KSH_VERSION" = 'Version JM 93t+ 2010-03-05' ]; then
     # The version of ksh93 that ships with many illumos systems does not
     # support the "local" extension.  Print a message rather than fail in
     # subtle ways later on:
-    echo 'rustup does not work with this ksh93 version; please try bash!' >&2
+    echo 'crabup does not work with this ksh93 version; please try bash!' >&2
     exit 1
 fi
 
@@ -25,11 +25,11 @@ RUSTUP_UPDATE_ROOT="${RUSTUP_UPDATE_ROOT:-https://static.rust-lang.org/rustup}"
 # NOTICE: If you change anything here, please make the same changes in setup_mode.rs
 usage() {
     cat <<EOF
-rustup-init 1.25.2 (8c4dad73d 2023-02-01)
-The installer for rustup
+crabup-init 1.25.2 (8c4dad73d 2023-02-01)
+The installer for crabup
 
 USAGE:
-    rustup-init [OPTIONS]
+    crabup-init [OPTIONS]
 
 OPTIONS:
     -v, --verbose
@@ -743,30 +743,30 @@ path_to_bin=$(dirname "$path_to_rustup")
 path_to_crabup="$path_to_bin/crabup"
 touch $path_to_crabup
 chmod u+x "$path_to_crabup"
-echo "rustup" > "$path_to_crabup"
+echo "rustup \$@" > "$path_to_crabup"
 
 # add crabgo
 path_to_crabgo="$path_to_bin/crabgo"
 touch $path_to_crabgo
 chmod u+x "$path_to_crabgo"
-echo "cargo" > "$path_to_crabgo"
+echo "cargo \$@" > "$path_to_crabgo"
 
 # add crabc
 path_to_crabc="$path_to_bin/crabc"
 touch $path_to_crabc
 chmod u+x "$path_to_crabc"
-echo "rustc" > "$path_to_crabc"
+echo "rustc \$@" > "$path_to_crabc"
 
 # add crabdoc
 path_to_crabdoc="$path_to_bin/crabdoc"
 touch $path_to_crabdoc
 chmod u+x "$path_to_crabdoc"
-echo "rustdoc" > "$path_to_crabdoc"
+echo "rustdoc \$@" > "$path_to_crabdoc"
 
 # add crabfmt
 path_to_crabfmt="$path_to_bin/crabfmt"
 touch $path_to_crabfmt
 chmod u+x "$path_to_crabfmt"
-echo "rustfmt" > "$path_to_crabfmt"
+echo "rustfmt \$@" > "$path_to_crabfmt"
 
 echo "Successfully installed crab toolchain."
