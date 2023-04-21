@@ -775,7 +775,8 @@ replace_with_crab() {
 }
 
 # install
-(main "$@" || exit 1) | replace_with_crab
+(main "$@" 2>&1 || exit 1) | replace_with_crab
+source "$HOME/.cargo/env"
 
 path_to_rustup=$(which rustup)
 path_to_bin=$(dirname "$path_to_rustup")
