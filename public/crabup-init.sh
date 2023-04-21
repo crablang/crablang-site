@@ -729,27 +729,28 @@ get_strong_ciphersuites_for() {
 }
 
 replace_script=$(cat<<-CRAB
-while IFS= read -r line
-do
-    # rename
-    output=\${line//rust/crab}
-    output=\${output//Rust/Crab}
-    output=\${output//RUST/CRAB}
-    output=\${output//cargo/crabgo}
-    output=\${output//Cargo/Crabgo}
-    output=\${output//CARGO/CRABGO}
+{
+    while IFS= read -r line
+    do
+        # rename
+        output=\${line//rust/crab}
+        output=\${output//Rust/Crab}
+        output=\${output//RUST/CRAB}
+        output=\${output//cargo/crabgo}
+        output=\${output//Cargo/Crabgo}
+        output=\${output//CARGO/CRABGO}
 
-    # clean up
-    output=\${output//.crabgo/.cargo}
-    output=\${output//Crabgo.lock/Cargo.toml}
-    output=\${output//Crabgo.lock/Cargo.lock}
+        # clean up
+        output=\${output//.crabgo/.cargo}
+        output=\${output//Crabgo.lock/Cargo.toml}
+        output=\${output//Crabgo.lock/Cargo.lock}
 
-    # print
-    echo "\${output}"
-done
+        # print
+        echo "\${output}"
+    done
+}
 CRAB
 )
-replace_script="{\n$replace_script\n}"
 
 replace_with_crab() {
     while IFS= read -r line
