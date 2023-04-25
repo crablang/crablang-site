@@ -744,6 +744,8 @@ replace_script=$(cat<<-CRAB
         output=\${output//.crabgo/.cargo}
         output=\${output//Crabgo.lock/Cargo.toml}
         output=\${output//Crabgo.lock/Cargo.lock}
+        output=\${output//crabgo.toml/cargo.toml}
+        output=\${output//.crabup/.rustup}
 
         # print
         echo "\${output}"
@@ -785,28 +787,29 @@ path_to_bin=$(dirname "$path_to_rustup")
 path_to_crabup="$path_to_bin/crabup"
 touch $path_to_crabup
 chmod u+x "$path_to_crabup"
-echo "rustup \$@ | $replace_script" > "$path_to_crabup"
+echo "rustup \$@ 2>&1 | $replace_script" > "$path_to_crabup"
 
 # add crabgo
 path_to_crabgo="$path_to_bin/crabgo"
 touch $path_to_crabgo
 chmod u+x "$path_to_crabgo"
-echo "cargo \$@ | $replace_script" > "$path_to_crabgo"
+echo "cargo \$@ 2>&1 | $replace_script" > "$path_to_crabgo"
 
 # add crabc
 path_to_crabc="$path_to_bin/crabc"
 touch $path_to_crabc
 chmod u+x "$path_to_crabc"
-echo "rustc \$@ | $replace_script" > "$path_to_crabc"
+echo "rustc \$@ 2>&1 | $replace_script" > "$path_to_crabc"
 
 # add crabdoc
 path_to_crabdoc="$path_to_bin/crabdoc"
 touch $path_to_crabdoc
 chmod u+x "$path_to_crabdoc"
-echo "rustdoc \$@ | $replace_script" > "$path_to_crabdoc"
+echo "rustdoc \$@ 2>&1 | $replace_script" > "$path_to_crabdoc"
 
 # add crabfmt
 path_to_crabfmt="$path_to_bin/crabfmt"
 touch $path_to_crabfmt
 chmod u+x "$path_to_crabfmt"
-echo "rustfmt \$@ | $replace_script" > "$path_to_crabfmt"
+echo "rustfmt \$@ 2>&1 | $replace_script" > "$path_to_crabfmt"
+
