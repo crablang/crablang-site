@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 
 export const ToggleThemeButton = () => {
-
     const [theme, setTheme] = useState(localStorage.getItem("theme") ?? "light");
 
     const toggleTheme = () => {
@@ -19,7 +18,8 @@ export const ToggleThemeButton = () => {
 
     return (
         <>
-            <button className="bg-neutral-700 rounded-full px-6 py-2 text-" onClick={toggleTheme}>{theme === "light" ? "🌙" : "🌞"}</button>
+            {typeof localStorage.getItem("theme") === null &&
+            <button className="bg-neutral-700 rounded-full px-6 py-2 text-" onClick={toggleTheme}>{theme === "light" ? "🌙" : "🌞"}</button>}
         </>
     )
 }
