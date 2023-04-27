@@ -739,10 +739,11 @@ replace_script=$(cat<<-CRAB
         output=\${output//cargo/crabgo}
         output=\${output//Cargo/Crabgo}
         output=\${output//CARGO/CRABGO}
+        output=\${output//clippy/pinchy}
 
         # clean up
         output=\${output//.crabgo/.cargo}
-        output=\${output//Crabgo.lock/Cargo.toml}
+        output=\${output//Crabgo.toml/Cargo.toml}
         output=\${output//Crabgo.lock/Cargo.lock}
         output=\${output//crabgo.toml/cargo.toml}
         output=\${output//.crabup/.rustup}
@@ -764,10 +765,11 @@ replace_with_crab() {
         output=${output//cargo/crabgo}
         output=${output//Cargo/Crabgo}
         output=${output//CARGO/CRABGO}
+        output=${output//clippy/pinchy}
 
         # clean up
         output=${output//.crabgo/.cargo}
-        output=${output//Crabgo.lock/Cargo.toml}
+        output=${output//Crabgo.toml/Cargo.toml}
         output=${output//Crabgo.lock/Cargo.lock}
         output=${output//crabgo.toml/cargo.toml}
         output=${output//.crabup/.rustup}
@@ -793,7 +795,16 @@ echo "rustup \$@ 2>&1 | $replace_script" > "$path_to_crabup"
 path_to_crabgo="$path_to_bin/crabgo"
 touch $path_to_crabgo
 chmod u+x "$path_to_crabgo"
-echo "cargo \$@ 2>&1 | $replace_script" > "$path_to_crabgo"
+script=$(cat<<-CRAB
+if [ "\$1" = "pinchy" ]; then
+    shift
+    cargo clippy \$@ 2>&1 | $replace_script
+    exit \$?
+fi
+cargo \$@ 2>&1 | $replace_script
+CRAB
+)
+echo "$script" > "$path_to_crabgo"
 
 # add crabc
 path_to_crabc="$path_to_bin/crabc"
