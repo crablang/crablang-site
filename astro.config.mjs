@@ -7,8 +7,8 @@ import react from "@astrojs/react";
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://crablang.org',
-  integrations: [mdx(), sitemap(), tailwind(), react()]
+	site: 'https://crablang.org',
+	integrations: [mdx(), sitemap(), tailwind(), react()],
 	adapter: vercel({
 		analytics: true,
 	}),
