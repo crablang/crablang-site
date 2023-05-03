@@ -1,83 +1,44 @@
-/*
-  The CSS in this style tag is based off of Bear Blog's default CSS.
-  https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
-  License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
- */
-html {
-  --headings_quotes: #222;
-  --text_color: #444;
-  --bg_color: #fff;
-  --code_text: #222;
-}
-body {
-	font-family: Verdana, sans-serif;
-	margin: auto;
-	padding: 20px;
-	max-width: 65ch;
-	text-align: left;
-	background-color: var(--bg_color);
-	word-wrap: break-word;
-	overflow-wrap: break-word;
-	line-height: 1.5;
-	color: var(--text_color);
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-strong,
-b {
-	color: var(--headings_quotes);
-}
-a {
-	color: #3273dc;
-}
-nav a {
-	margin-right: 10px;
-}
-textarea {
-	width: 100%;
-	font-size: 16px;
-}
-input {
-	font-size: 16px;
-}
-content {
-	line-height: 1.6;
-}
-table {
-	width: 100%;
-}
-img {
-	max-width: 100%;
-	height: auto;
-}
-code {
-	padding: 2px 5px;
-	background-color: #f2f2f2;
-	color: var(--code_text);
-}
-pre {
-	padding: 1rem;
-}
-pre > code {
-	all: unset;
-}
-blockquote {
-	border: 1px solid #999;
-	color: var(--headings_quotes);
-	padding: 2px 0px 2px 20px;
-	margin: 0px;
-	font-style: italic;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+h1{
+  @apply mb-4 text-xl font-extrabold leading-none tracking-tight md:text-2xl lg:text-3xl 
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    --headings_quotes: #fff;
-    --text_color: #fff;
-    --bg_color: #222;
-    --code_text: #444;
-  }
+h2{
+  @apply text-lg md:text-xl lg:text-2xl font-extrabold
+}
+
+textarea {
+	@apply w-full text-base;
+}
+
+input {
+@apply text-base;
+}
+
+content {
+@apply leading-[1.6px];
+}
+
+table {
+@apply w-full;
+}
+
+code {
+@apply bg-[#f2f2f2] text-[#222] px-[5px] py-0.5;
+}
+
+pre {
+@apply p-4;
+}
+
+pre > code {
+all: unset;
+}
+
+blockquote {
+	@apply border text-[#222] italic m-0 pl-5 pr-0 py-0.5 border-solid border-[#999];
 }
