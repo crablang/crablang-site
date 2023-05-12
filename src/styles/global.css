@@ -40,5 +40,5 @@ all: unset;
 }
 
 blockquote {
-	@apply border text-[#222] italic m-0 pl-5 pr-0 py-0.5 border-solid border-[#999];
+	@apply border text-[#222] dark:text-gray-300 italic m-0 pl-5 pr-0 py-0.5 border-solid border-[#999];
 }
