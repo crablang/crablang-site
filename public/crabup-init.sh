@@ -221,9 +221,9 @@ is_host_amd64_elf() {
 }
 
 get_endianness() {
-    local cputype=$1
-    local suffix_eb=$2
-    local suffix_el=$3
+    local cputype="$1"
+    local suffix_eb="$2"
+    local suffix_el="$3"
 
     # detect endianness without od/hexdump, like get_bitness() does.
     need_cmd head
@@ -780,20 +780,20 @@ replace_with_crab() {
 
 # install
 (main "$@" 2>&1 || exit 1) | replace_with_crab
-source "$HOME/.cargo/env"
+. "$HOME/.cargo/env"
 
 path_to_rustup=$(which rustup)
 path_to_bin=$(dirname "$path_to_rustup")
 
 # add crabup
 path_to_crabup="$path_to_bin/crabup"
-touch $path_to_crabup
+touch "$path_to_crabup"
 chmod u+x "$path_to_crabup"
 echo "rustup \$@ 2>&1 | $replace_script" > "$path_to_crabup"
 
 # add crabgo
 path_to_crabgo="$path_to_bin/crabgo"
-touch $path_to_crabgo
+touch "$path_to_crabgo"
 chmod u+x "$path_to_crabgo"
 script=$(cat<<-CRAB
 if [ "\$1" = "pinchy" ]; then
@@ -808,19 +808,19 @@ echo "$script" > "$path_to_crabgo"
 
 # add crabc
 path_to_crabc="$path_to_bin/crabc"
-touch $path_to_crabc
+touch "$path_to_crabc"
 chmod u+x "$path_to_crabc"
 echo "rustc \$@ 2>&1 | $replace_script" > "$path_to_crabc"
 
 # add crabdoc
 path_to_crabdoc="$path_to_bin/crabdoc"
-touch $path_to_crabdoc
+touch "$path_to_crabdoc"
 chmod u+x "$path_to_crabdoc"
 echo "rustdoc \$@ 2>&1 | $replace_script" > "$path_to_crabdoc"
 
 # add crabfmt
 path_to_crabfmt="$path_to_bin/crabfmt"
-touch $path_to_crabfmt
+touch "$path_to_crabfmt"
 chmod u+x "$path_to_crabfmt"
 echo "rustfmt \$@ 2>&1 | $replace_script" > "$path_to_crabfmt"
 
