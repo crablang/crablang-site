@@ -16,7 +16,6 @@ if [ "$KSH_VERSION" = 'Version JM 93t+ 2010-03-05' ]; then
     exit 1
 fi
 
-
 set -u
 
 # If RUSTUP_UPDATE_ROOT is unset or empty, default it.
@@ -85,9 +84,9 @@ main() {
 
     local _ext=""
     case "$_arch" in
-        *windows*)
-            _ext=".exe"
-            ;;
+    *windows*)
+        _ext=".exe"
+        ;;
     esac
 
     local _url="${RUSTUP_UPDATE_ROOT}/dist/${_arch}/rustup-init${_ext}"
@@ -104,8 +103,8 @@ main() {
     if [ -t 2 ]; then
         if [ "${TERM+set}" = 'set' ]; then
             case "$TERM" in
-                xterm*|rxvt*|urxvt*|linux*|vt*)
-                    _ansi_escapes_are_valid=true
+            xterm* | rxvt* | urxvt* | linux* | vt*)
+                _ansi_escapes_are_valid=true
                 ;;
             esac
         fi
@@ -115,33 +114,32 @@ main() {
     local need_tty=yes
     for arg in "$@"; do
         case "$arg" in
-            --help)
-                usage
-                exit 0
-                ;;
-            *)
-                OPTIND=1
-                if [ "${arg%%--*}" = "" ]; then
-                    # Long option (other than --help);
-                    # don't attempt to interpret it.
-                    continue
-                fi
-                while getopts :hy sub_arg "$arg"; do
-                    case "$sub_arg" in
-                        h)
-                            usage
-                            exit 0
-                            ;;
-                        y)
-                            # user wants to skip the prompt --
-                            # we don't need /dev/tty
-                            need_tty=no
-                            ;;
-                        *)
-                            ;;
-                        esac
-                done
-                ;;
+        --help)
+            usage
+            exit 0
+            ;;
+        *)
+            OPTIND=1
+            if [ "${arg%%--*}" = "" ]; then
+                # Long option (other than --help);
+                # don't attempt to interpret it.
+                continue
+            fi
+            while getopts :hy sub_arg "$arg"; do
+                case "$sub_arg" in
+                h)
+                    usage
+                    exit 0
+                    ;;
+                y)
+                    # user wants to skip the prompt --
+                    # we don't need /dev/tty
+                    need_tty=no
+                    ;;
+                *) ;;
+                esac
+            done
+            ;;
         esac
     done
 
@@ -169,7 +167,7 @@ main() {
             err "Unable to run interactively. Run with -y to accept defaults, --help for additional options"
         fi
 
-        ignore "$_file" "$@" < /dev/tty
+        ignore "$_file" "$@" </dev/tty
     else
         ignore "$_file" "$@"
     fi
@@ -185,7 +183,7 @@ main() {
 check_proc() {
     # Check for /proc by looking for the /proc/self/exe link
     # This is only run on Linux
-    if ! test -L /proc/self/exe ; then
+    if ! test -L /proc/self/exe; then
         err "fatal: Unable to find /proc/self/exe.  Is /proc mounted?  Installation cannot proceed without /proc."
     fi
 }
@@ -199,7 +197,7 @@ get_bitness() {
     # The printf builtin on some shells like dash only supports octal
     # escape sequences, so we use those.
     local _current_exe_head
-    _current_exe_head=$(head -c 5 /proc/self/exe )
+    _current_exe_head=$(head -c 5 /proc/self/exe)
     if [ "$_current_exe_head" = "$(printf '\177ELF\001')" ]; then
         echo 32
     elif [ "$_current_exe_head" = "$(printf '\177ELF\002')" ]; then
@@ -282,69 +280,154 @@ get_architecture() {
 
     case "$_ostype" in
 
-        Android)
-            _ostype=linux-android
-            ;;
+    Android)
+        _ostype=linux-android
+        ;;
 
-        Linux)
-            check_proc
-            _ostype=unknown-linux-$_clibtype
-            _bitness=$(get_bitness)
-            ;;
+    Linux)
+        check_proc
+        _ostype=unknown-linux-$_clibtype
+        _bitness=$(get_bitness)
+        ;;
 
-        FreeBSD)
-            _ostype=unknown-freebsd
-            ;;
+    FreeBSD)
+        _ostype=unknown-freebsd
+        ;;
 
-        NetBSD)
-            _ostype=unknown-netbsd
-            ;;
+    NetBSD)
+        _ostype=unknown-netbsd
+        ;;
 
-        DragonFly)
-            _ostype=unknown-dragonfly
-            ;;
+    DragonFly)
+        _ostype=unknown-dragonfly
+        ;;
 
-        Darwin)
-            _ostype=apple-darwin
-            ;;
+    Darwin)
+        _ostype=apple-darwin
+        ;;
 
-        illumos)
-            _ostype=unknown-illumos
-            ;;
+    illumos)
+        _ostype=unknown-illumos
+        ;;
 
-        MINGW* | MSYS* | CYGWIN* | Windows_NT)
-            _ostype=pc-windows-gnu
-            ;;
+    MINGW* | MSYS* | CYGWIN* | Windows_NT)
+        _ostype=pc-windows-gnu
+        ;;
 
-        *)
-            err "unrecognized OS type: $_ostype"
-            ;;
+    *)
+        err "unrecognized OS type: $_ostype"
+        ;;
 
     esac
 
     case "$_cputype" in
 
-        i386 | i486 | i686 | i786 | x86)
-            _cputype=i686
-            ;;
+    i386 | i486 | i686 | i786 | x86)
+        _cputype=i686
+        ;;
 
-        xscale | arm)
-            _cputype=arm
-            if [ "$_ostype" = "linux-android" ]; then
-                _ostype=linux-androideabi
-            fi
-            ;;
+    xscale | arm)
+        _cputype=arm
+        if [ "$_ostype" = "linux-android" ]; then
+            _ostype=linux-androideabi
+        fi
+        ;;
 
-        armv6l)
-            _cputype=arm
-            if [ "$_ostype" = "linux-android" ]; then
-                _ostype=linux-androideabi
-            else
-                _ostype="${_ostype}eabihf"
-            fi
-            ;;
+    armv6l)
+        _cputype=arm
+        if [ "$_ostype" = "linux-android" ]; then
+            _ostype=linux-androideabi
+        else
+            _ostype="${_ostype}eabihf"
+        fi
+        ;;
 
-        armv7l | armv8l)
+    armv7l | armv8l)
+        _cputype=armv7
+        if [ "$_ostype" = "linux-android" ]; then
+            _ostype=linux-androideabi
+        else
+            _ostype="${_ostype}eabihf"
+        fi
+        ;;
+
+    aarch64 | arm64)
+        _cputype=aarch64
+        ;;
+
+    x86_64 | x86-64 | x64 | amd64)
+        _cputype=x86_64
+        ;;
+
+    mips)
+        _cputype=$(get_endianness mips '' el)
+        ;;
+
+    mips64)
+        if [ "$_bitness" -eq 64 ]; then
+            # only n64 ABI is supported for now
+            _ostype="${_ostype}abi64"
+            _cputype=$(get_endianness mips64 '' el)
+        fi
+        ;;
+
+    ppc)
+        _cputype=powerpc
+        ;;
+
+    ppc64)
+        _cputype=powerpc64
+        ;;
+
+    ppc64le)
+        _cputype=powerpc64le
+        ;;
+
+    s390x)
+        _cputype=s390x
+        ;;
+    riscv64)
+        _cputype=riscv64gc
+        ;;
+    loongarch64)
+        _cputype=loongarch64
+        ;;
+    *)
+        err "unknown CPU type: $_cputype"
+        ;;
+
+    esac
+
+    # Detect 64-bit linux with 32-bit userland
+    if [ "${_ostype}" = unknown-linux-gnu ] && [ "${_bitness}" -eq 32 ]; then
+        case $_cputype in
+        x86_64)
+            if [ -n "${RUSTUP_CPUTYPE:-}" ]; then
+                _cputype="$RUSTUP_CPUTYPE"
+            else {
+                # 32-bit executable for amd64 = x32
+                if is_host_amd64_elf; then {
+                    echo "This host is running an x32 userland; as it stands, x32 support is poor," 1>&2
+                    echo "and there isn't a native toolchain -- you will have to install" 1>&2
+                    echo "multiarch compatibility with i686 and/or amd64, then select one" 1>&2
+                    echo "by re-running this script with the RUSTUP_CPUTYPE environment variable" 1>&2
+                    echo "set to i686 or x86_64, respectively." 1>&2
+                    echo 1>&2
+                    echo "You will be able to add an x32 target after installation by running" 1>&2
+                    echo "  rustup target add x86_64-unknown-linux-gnux32" 1>&2
+                    exit 1
+                }; else
+                    _cputype=i686
+                fi
+            }; fi
+            ;;
+        mips64)
+            _cputype=$(get_endianness mips '' el)
+            ;;
+        powerpc64)
+            _cputype=powerpc
+            ;;
+        aarch64)
             _cputype=armv7
             if [ "$_ostype" = "linux-android" ]; then
                 _ostype=linux-androideabi
@@ -352,93 +435,9 @@ get_architecture() {
                 _ostype="${_ostype}eabihf"
             fi
             ;;
-
-        aarch64 | arm64)
-            _cputype=aarch64
+        riscv64gc)
+            err "riscv64 with 32-bit userland unsupported"
             ;;
-
-        x86_64 | x86-64 | x64 | amd64)
-            _cputype=x86_64
-            ;;
-
-        mips)
-            _cputype=$(get_endianness mips '' el)
-            ;;
-
-        mips64)
-            if [ "$_bitness" -eq 64 ]; then
-                # only n64 ABI is supported for now
-                _ostype="${_ostype}abi64"
-                _cputype=$(get_endianness mips64 '' el)
-            fi
-            ;;
-
-        ppc)
-            _cputype=powerpc
-            ;;
-
-        ppc64)
-            _cputype=powerpc64
-            ;;
-
-        ppc64le)
-            _cputype=powerpc64le
-            ;;
-
-        s390x)
-            _cputype=s390x
-            ;;
-        riscv64)
-            _cputype=riscv64gc
-            ;;
-        loongarch64)
-            _cputype=loongarch64
-            ;;
-        *)
-            err "unknown CPU type: $_cputype"
-
-    esac
-
-    # Detect 64-bit linux with 32-bit userland
-    if [ "${_ostype}" = unknown-linux-gnu ] && [ "${_bitness}" -eq 32 ]; then
-        case $_cputype in
-            x86_64)
-                if [ -n "${RUSTUP_CPUTYPE:-}" ]; then
-                    _cputype="$RUSTUP_CPUTYPE"
-                else {
-                    # 32-bit executable for amd64 = x32
-                    if is_host_amd64_elf; then {
-                         echo "This host is running an x32 userland; as it stands, x32 support is poor," 1>&2
-                         echo "and there isn't a native toolchain -- you will have to install" 1>&2
-                         echo "multiarch compatibility with i686 and/or amd64, then select one" 1>&2
-                         echo "by re-running this script with the RUSTUP_CPUTYPE environment variable" 1>&2
-                         echo "set to i686 or x86_64, respectively." 1>&2
-                         echo 1>&2
-                         echo "You will be able to add an x32 target after installation by running" 1>&2
-                         echo "  rustup target add x86_64-unknown-linux-gnux32" 1>&2
-                         exit 1
-                    }; else
-                        _cputype=i686
-                    fi
-                }; fi
-                ;;
-            mips64)
-                _cputype=$(get_endianness mips '' el)
-                ;;
-            powerpc64)
-                _cputype=powerpc
-                ;;
-            aarch64)
-                _cputype=armv7
-                if [ "$_ostype" = "linux-android" ]; then
-                    _ostype=linux-androideabi
-                else
-                    _ostype="${_ostype}eabihf"
-                fi
-                ;;
-            riscv64gc)
-                err "riscv64 with 32-bit userland unsupported"
-                ;;
         esac
     fi
 
@@ -473,7 +472,7 @@ need_cmd() {
 }
 
 check_cmd() {
-    command -v "$1" > /dev/null 2>&1
+    command -v "$1" >/dev/null 2>&1
 }
 
 assert_nz() {
@@ -539,7 +538,7 @@ downloader() {
         fi
         return $_status
     elif [ "$_dld" = wget ]; then
-        if [ "$(wget -V 2>&1|head -2|tail -1|cut -f1 -d" ")" = "BusyBox" ]; then
+        if [ "$(wget -V 2>&1 | head -2 | tail -1 | cut -f1 -d" ")" = "BusyBox" ]; then
             echo "Warning: using the BusyBox version of wget.  Not enforcing strong cipher suites for TLS or TLS v1.2, this is potentially less secure"
             _err=$(wget "$1" -O "$2" 2>&1)
             _status=$?
@@ -569,7 +568,7 @@ downloader() {
         fi
         return $_status
     else
-        err "Unknown downloader"   # should not reach here
+        err "Unknown downloader" # should not reach here
     fi
 }
 
@@ -584,33 +583,33 @@ check_help_for() {
 
     local _category
     if "$_cmd" --help | grep -q 'For all options use the manual or "--help all".'; then
-      _category="all"
+        _category="all"
     else
-      _category=""
+        _category=""
     fi
 
     case "$_arch" in
 
-        *darwin*)
+    *darwin*)
         if check_cmd sw_vers; then
             case $(sw_vers -productVersion) in
-                10.*)
-                    # If we're running on macOS, older than 10.13, then we always
-                    # fail to find these options to force fallback
-                    if [ "$(sw_vers -productVersion | cut -d. -f2)" -lt 13 ]; then
-                        # Older than 10.13
-                        echo "Warning: Detected macOS platform older than 10.13"
-                        return 1
-                    fi
-                    ;;
-                11.*)
-                    # We assume Big Sur will be OK for now
-                    ;;
-                *)
-                    # Unknown product version, warn and continue
-                    echo "Warning: Detected unknown macOS major version: $(sw_vers -productVersion)"
-                    echo "Warning TLS capabilities detection may fail"
-                    ;;
+            10.*)
+                # If we're running on macOS, older than 10.13, then we always
+                # fail to find these options to force fallback
+                if [ "$(sw_vers -productVersion | cut -d. -f2)" -lt 13 ]; then
+                    # Older than 10.13
+                    echo "Warning: Detected macOS platform older than 10.13"
+                    return 1
+                fi
+                ;;
+            11.*)
+                # We assume Big Sur will be OK for now
+                ;;
+            *)
+                # Unknown product version, warn and continue
+                echo "Warning: Detected unknown macOS major version: $(sw_vers -productVersion)"
+                echo "Warning TLS capabilities detection may fail"
+                ;;
             esac
         fi
         ;;
@@ -728,25 +727,51 @@ get_strong_ciphersuites_for() {
     fi
 }
 
-replace_script=$(cat<<-CRAB
+replace_fn=$(
+    cat <<-CRAB
+replace_all() {
+    RIGHT=\$1
+    R=
+
+    while [ -n "\$RIGHT" ]; do
+        LEFT=\${RIGHT%%\$2*}
+
+        if [ "\$LEFT" = "\$RIGHT" ]; then
+            R=\$R\$RIGHT
+            break
+        fi
+
+        R=\$R\$LEFT\$3
+        RIGHT=\${RIGHT#*\$2}
+    done
+
+    echo "\$R"
+}
+CRAB
+)
+
+replace_script=$(
+    cat <<-CRAB
 {
     while IFS= read -r line
     do
+        output="\$line"
+
         # rename
-        output=\${line//rust/crab}
-        output=\${output//Rust/Crab}
-        output=\${output//RUST/CRAB}
-        output=\${output//cargo/crabgo}
-        output=\${output//Cargo/Crabgo}
-        output=\${output//CARGO/CRABGO}
-        output=\${output//clippy/pinchy}
+        output=\$(replace_all "\$output" "rust" "crab")
+        output=\$(replace_all "\$output" "Rust" "Crab")
+        output=\$(replace_all "\$output" "RUST" "CRAB")
+        output=\$(replace_all "\$output" "cargo" "crabgo")
+        output=\$(replace_all "\$output" "Cargo" "Crabgo")
+        output=\$(replace_all "\$output" "CARGO" "CRABGO")
+        output=\$(replace_all "\$output" "clippy" "pinchy")
 
         # clean up
-        output=\${output//.crabgo/.cargo}
-        output=\${output//Crabgo.toml/Cargo.toml}
-        output=\${output//Crabgo.lock/Cargo.lock}
-        output=\${output//crabgo.toml/cargo.toml}
-        output=\${output//.crabup/.rustup}
+        output=\$(replace_all "\$output" ".crabgo" ".cargo")
+        output=\$(replace_all "\$output" "Crabgo.toml" "Cargo.toml")
+        output=\$(replace_all "\$output" "Crabgo.lock" "Cargo.lock")
+        output=\$(replace_all "\$output" "crabgo.toml" "cargo.toml")
+        output=\$(replace_all "\$output" ".crabup" ".rustup")
 
         # print
         echo "\${output}"
@@ -755,24 +780,45 @@ replace_script=$(cat<<-CRAB
 CRAB
 )
 
+replace_all() {
+    RIGHT=$1
+    R=
+
+    while [ -n "$RIGHT" ]; do
+        LEFT=${RIGHT%%$2*}
+
+        if [ "$LEFT" = "$RIGHT" ]; then
+            R=$R$RIGHT
+            break
+        fi
+
+        R=$R$LEFT$3
+        RIGHT=${RIGHT#*$2}
+    done
+
+    echo "$R"
+
+    return 0
+}
+
 replace_with_crab() {
-    while IFS= read -r line
-    do
+    while IFS= read -r line; do
         # rename
-        output=${line//rust/crab}
-        output=${output//Rust/Crab}
-        output=${output//RUST/CRAB}
-        output=${output//cargo/crabgo}
-        output=${output//Cargo/Crabgo}
-        output=${output//CARGO/CRABGO}
-        output=${output//clippy/pinchy}
+        output="$line"
+        output=$(replace_all "$output" "rust" "crab")
+        output=$(replace_all "$output" "Rust" "Crab")
+        output=$(replace_all "$output" "RUST" "CRAB")
+        output=$(replace_all "$output" "cargo" "crabgo")
+        output=$(replace_all "$output" "Cargo" "Crabgo")
+        output=$(replace_all "$output" "CARGO" "CRABGO")
+        output=$(replace_all "$output" "clippy" "pinchy")
 
         # clean up
-        output=${output//.crabgo/.cargo}
-        output=${output//Crabgo.toml/Cargo.toml}
-        output=${output//Crabgo.lock/Cargo.lock}
-        output=${output//crabgo.toml/cargo.toml}
-        output=${output//.crabup/.rustup}
+        output=$(replace_all "$output" ".crabgo" ".cargo")
+        output=$(replace_all "$output" "Crabgo.toml" "Cargo.toml")
+        output=$(replace_all "$output" "Crabgo.lock" "Cargo.lock")
+        output=$(replace_all "$output" "crabgo.toml" "cargo.toml")
+        output=$(replace_all "$output" ".crabup" ".rustup")
 
         echo "${output}"
     done
@@ -789,38 +835,61 @@ path_to_bin=$(dirname "$path_to_rustup")
 path_to_crabup="$path_to_bin/crabup"
 touch "$path_to_crabup"
 chmod u+x "$path_to_crabup"
-echo "rustup \$@ 2>&1 | $replace_script" > "$path_to_crabup"
+echo "rustup \$@ 2>&1 | $replace_script" >"$path_to_crabup"
 
 # add crabgo
 path_to_crabgo="$path_to_bin/crabgo"
 touch "$path_to_crabgo"
 chmod u+x "$path_to_crabgo"
-script=$(cat<<-CRAB
+script=$(
+    cat <<-CRAB
+#!/bin/sh
+$replace_fn
 if [ "\$1" = "pinchy" ]; then
     shift
-    cargo clippy \$@ 2>&1 | $replace_script
+    cargo clippy "\$@" 2>&1 | $replace_script
     exit \$?
 fi
-cargo \$@ 2>&1 | $replace_script
+cargo "\$@" 2>&1 | $replace_script
 CRAB
 )
-echo "$script" > "$path_to_crabgo"
+echo "$script" >"$path_to_crabgo"
 
 # add crabc
 path_to_crabc="$path_to_bin/crabc"
 touch "$path_to_crabc"
 chmod u+x "$path_to_crabc"
-echo "rustc \$@ 2>&1 | $replace_script" > "$path_to_crabc"
+script=$(
+    cat <<-CRAB
+#!/bin/sh
+$replace_fn
+rustc "\$@" 2>&1 | $replace_script
+CRAB
+)
+echo "$script" >"$path_to_crabc"
 
 # add crabdoc
 path_to_crabdoc="$path_to_bin/crabdoc"
 touch "$path_to_crabdoc"
 chmod u+x "$path_to_crabdoc"
-echo "rustdoc \$@ 2>&1 | $replace_script" > "$path_to_crabdoc"
+script=$(
+    cat <<-CRAB
+#!/bin/sh
+$replace_fn
+rustdoc "\$@" 2>&1 | $replace_script
+CRAB
+)
+echo "$script" >"$path_to_crabdoc"
 
 # add crabfmt
 path_to_crabfmt="$path_to_bin/crabfmt"
 touch "$path_to_crabfmt"
 chmod u+x "$path_to_crabfmt"
-echo "rustfmt \$@ 2>&1 | $replace_script" > "$path_to_crabfmt"
-
+script=$(
+    cat <<-CRAB
+#!/bin/sh
+$replace_fn
+rustfmt "\$@" 2>&1 | $replace_script
+CRAB
+)
+echo "$script" >"$path_to_crabfmt"
